@@ -9,6 +9,11 @@ export async function PUT(request, context) {
   try {
     await connectDB();
     const id = context.params.id;
+    const singleItem = await ItemModel.findById(id);
+    const email = reqBody.email;
+    if (singleItem.email !== email) {
+      return NextResponse.json({ message: '他の人が作成したアイテムです' });
+    }
     const updateData = reqBody;
     await ItemModel.updateOne({ _id: id }, updateData);
     return NextResponse.json({ message: 'アイテム編集成功' });
