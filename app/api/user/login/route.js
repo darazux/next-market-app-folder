@@ -2,7 +2,10 @@
 
 import connectDB from '@/app/utils/database';
 import { UserModel } from '@/app/utils/schemaModels';
+import { SignJWT } from 'jose';
 import { NextResponse } from 'next/server';
+
+const secretKey = new TextEncoder().encode('next-market-app-bookk');
 
 export async function POST(request) {
   const reqBody = await request.json();
@@ -23,7 +26,15 @@ export async function POST(request) {
         message: 'ログイン失敗：パスワードが間違っています',
       });
     }
-    return NextResponse.json({ message: 'ログイン成功' });
+    // create token
+    const payload = {
+      email: email,
+    };
+    const token = await new SignJWT(payload)
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('1d')
+      .sign(secretKey);
+    return NextResponse.json({ message: 'ログイン成功', token: token });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: 'ログイン失敗' });
