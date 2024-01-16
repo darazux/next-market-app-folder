@@ -13,6 +13,7 @@ export async function GET() {
       allItems: allItems,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ message: 'アイテム読み取り失敗（オール）' });
   }
 }
