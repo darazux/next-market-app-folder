@@ -51,7 +51,7 @@ const UpdateItem = (context) => {
       alert('アイテム編集失敗');
     }
   };
-  if (loginUserEmail === itemData.email) {
+  if (loginUserEmail && loginUserEmail === itemData.email) {
     return (
       itemData.email && (
         <div className="page-title">

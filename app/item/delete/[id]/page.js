@@ -46,7 +46,7 @@ const DeleteItem = (context) => {
       alert('アイテム削除失敗');
     }
   };
-  if (loginUserEmail === itemData.email) {
+  if (loginUserEmail && loginUserEmail === itemData.email) {
     return (
       itemData.title && (
         <div>
