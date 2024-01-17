@@ -2,18 +2,20 @@
 
 'use client';
 
+import useAuth from '@/app/utils/useAuth';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const DeleteItem = (context) => {
   const api_url = process.env.NEXT_PUBLIC_API_URL;
   const id = context.params.id;
+  const loginUserEmail = useAuth();
   const [itemData, setItemData] = useState({
     title: '',
     price: '',
     image: '',
     description: '',
-    email: '',
+    email: loginUserEmail,
   });
   useEffect(() => {
     const getSingleItem = async (id) => {
@@ -44,24 +46,32 @@ const DeleteItem = (context) => {
       alert('アイテム削除失敗');
     }
   };
-  return (
-    <div>
-      <h1>アイテム削除</h1>
-      <form onSubmit={handleSubmit}>
-        <h2>{itemData.title}</h2>
-        <Image
-          src={itemData.image}
-          width={750}
-          height={500}
-          alt="item-image"
-          priority={true}
-        />
-        <h3>￥{Number(itemData.price).toLocaleString()}</h3>
-        <p>{itemData.description}</p>
-        <button>削除</button>
-      </form>
-    </div>
-  );
+  if (loginUserEmail === itemData.email) {
+    return (
+      itemData.title && (
+        <div>
+          <h1>アイテム削除</h1>
+          <form onSubmit={handleSubmit}>
+            <h2>{itemData.title}</h2>
+            {itemData.image && (
+              <Image
+                src={itemData.image}
+                width={750}
+                height={500}
+                alt="item-image"
+                priority={true}
+              />
+            )}
+            <h3>￥{Number(itemData.price).toLocaleString()}</h3>
+            <p>{itemData.description}</p>
+            <button>削除</button>
+          </form>
+        </div>
+      )
+    );
+  } else {
+    return itemData.title && <h1>権限がありません</h1>;
+  }
 };
 
 export default DeleteItem;

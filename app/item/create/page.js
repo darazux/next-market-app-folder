@@ -2,16 +2,18 @@
 
 'use client';
 
+import useAuth from '@/app/utils/useAuth';
 import { useState } from 'react';
 
 const CreateItem = () => {
   const api_url = process.env.NEXT_PUBLIC_API_URL;
+  const loginUserEmail = useAuth();
   const [itemData, setItemData] = useState({
     title: '',
     price: '',
     image: '',
     description: '',
-    email: 'dummy',
+    email: loginUserEmail,
   });
   const handleChange = (e) => {
     setItemData({
@@ -38,46 +40,48 @@ const CreateItem = () => {
       alert('アイテム作成失敗');
     }
   };
-  return (
-    <div>
-      <h1>アイテム作成</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={itemData.title}
-          onChange={handleChange}
-          type="text"
-          name="title"
-          placeholder="アイテム名"
-          required
-        />
-        <input
-          value={itemData.price}
-          onChange={handleChange}
-          type="text"
-          name="price"
-          placeholder="価格"
-          required
-        />
-        <input
-          value={itemData.image}
-          onChange={handleChange}
-          type="text"
-          name="image"
-          placeholder="画像"
-          required
-        />
-        <textarea
-          value={itemData.description}
-          onChange={handleChange}
-          name="description"
-          rows={15}
-          placeholder="商品説明"
-          required
-        ></textarea>
-        <button>作成</button>
-      </form>
-    </div>
-  );
+  if (loginUserEmail) {
+    return (
+      <div>
+        <h1>アイテム作成</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            value={itemData.title}
+            onChange={handleChange}
+            type="text"
+            name="title"
+            placeholder="アイテム名"
+            required
+          />
+          <input
+            value={itemData.price}
+            onChange={handleChange}
+            type="text"
+            name="price"
+            placeholder="価格"
+            required
+          />
+          <input
+            value={itemData.image}
+            onChange={handleChange}
+            type="text"
+            name="image"
+            placeholder="画像"
+            required
+          />
+          <textarea
+            value={itemData.description}
+            onChange={handleChange}
+            name="description"
+            rows={15}
+            placeholder="商品説明"
+            required
+          ></textarea>
+          <button>作成</button>
+        </form>
+      </div>
+    );
+  }
 };
 
 export default CreateItem;
