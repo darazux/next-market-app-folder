@@ -26,7 +26,11 @@ const ReadAllItems = async () => {
           <div key={item._id}>
             <h2>{Number(item.price).toLocaleString()}</h2>
             <h3>{item.title}</h3>
-            <p>{item.description}</p>
+            <p>
+              {item.description.length >= 80
+                ? item.description.substring(0, 80) + '...'
+                : item.description}
+            </p>
           </div>
         </Link>
       ))}
