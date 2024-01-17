@@ -13,7 +13,7 @@ const getAllItems = async () => {
 const ReadAllItems = async () => {
   const allItems = await getAllItems();
   return (
-    <div>
+    <div className="grid-container-in">
       {allItems.map((item) => (
         <Link href={`/item/readsingle/${item._id}`} key={item._id}>
           <Image

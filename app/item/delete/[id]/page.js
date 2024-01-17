@@ -50,7 +50,7 @@ const DeleteItem = (context) => {
     return (
       itemData.title && (
         <div>
-          <h1>アイテム削除</h1>
+          <h1 className="page-title">アイテム削除</h1>
           <form onSubmit={handleSubmit}>
             <h2>{itemData.title}</h2>
             {itemData.image && (
