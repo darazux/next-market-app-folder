@@ -53,7 +53,7 @@ const UpdateItem = (context) => {
   };
   if (loginUserEmail === itemData.email) {
     return (
-      itemData.title && (
+      itemData.email && (
         <div className="page-title">
           <h1>アイテム編集</h1>
           <form onSubmit={handleSubmit}>
