@@ -4,6 +4,9 @@ import { jwtVerify } from 'jose';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const secretKeyStr = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+const secretKey = new TextEncoder().encode(secretKeyStr);
+
 const useAuth = () => {
   const [loginUserEmail, setLoginUserEmail] = useState('');
   const router = useRouter();
@@ -14,7 +17,6 @@ const useAuth = () => {
         router.push('/user/login');
       }
       try {
-        const secretKey = new TextEncoder().encode('next-market-app-bookk');
         const decodedJwt = await jwtVerify(token, secretKey);
         setLoginUserEmail(decodedJwt.payload.email);
       } catch (error) {

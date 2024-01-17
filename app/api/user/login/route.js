@@ -5,7 +5,8 @@ import { UserModel } from '@/app/utils/schemaModels';
 import { SignJWT } from 'jose';
 import { NextResponse } from 'next/server';
 
-const secretKey = new TextEncoder().encode('next-market-app-bookk');
+const secretKeyStr = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+const secretKey = new TextEncoder().encode(secretKeyStr);
 
 export async function POST(request) {
   const reqBody = await request.json();
