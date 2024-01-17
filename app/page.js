@@ -24,7 +24,7 @@ const ReadAllItems = async () => {
             priority={true}
           />
           <div key={item._id}>
-            <h2>{Number(item.price).toLocaleString()}</h2>
+            <h2>￥{Number(item.price).toLocaleString()}</h2>
             <h3>{item.title}</h3>
             <p>
               {item.description.length >= 80
