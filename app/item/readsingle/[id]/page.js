@@ -1,6 +1,7 @@
 // app/item/readsingle/[id]/page.js
 
-const { default: Image } = require('next/image');
+import Image from 'next/image';
+import Link from 'next/link';
 
 const getSingleItem = async (id) => {
   const api_url = process.env.NEXT_PUBLIC_API_URL;
@@ -30,6 +31,10 @@ const ReadSingleItem = async (context) => {
         <h2>￥{Number(singleItem.price).toLocaleString()}</h2>
         <hr />
         <p>{singleItem.description}</p>
+        <div>
+          <Link href={`/item/update/${id}`}>アイテム編集</Link>
+          <Link href={`/item/delete/${id}`}>アイテム削除</Link>
+        </div>
       </div>
     </div>
   );
