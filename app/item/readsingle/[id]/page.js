@@ -4,7 +4,9 @@ const { default: Image } = require('next/image');
 
 const getSingleItem = async (id) => {
   const api_url = process.env.NEXT_PUBLIC_API_URL;
-  const resp = await fetch(`${api_url}api/item/readsingle/${id}`);
+  const resp = await fetch(`${api_url}api/item/readsingle/${id}`, {
+    cache: 'no-store',
+  });
   const jsonData = await resp.json();
   return jsonData.singleItem;
 };
