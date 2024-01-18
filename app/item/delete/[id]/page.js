@@ -17,6 +17,7 @@ const DeleteItem = (context) => {
     description: '',
     email: loginUserEmail,
   });
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getSingleItem = async (id) => {
       const resp = await fetch(`${api_url}api/item/readsingle/${id}`, {
@@ -24,6 +25,7 @@ const DeleteItem = (context) => {
       });
       const jsonData = await resp.json();
       setItemData(jsonData.singleItem);
+      setLoading(true);
     };
     getSingleItem(id);
   }, [context]);
@@ -46,31 +48,30 @@ const DeleteItem = (context) => {
       alert('アイテム削除失敗');
     }
   };
+  if (!loading) {
+    return <h1>Loading...</h1>;
+  }
   if (loginUserEmail && loginUserEmail === itemData.email) {
     return (
-      itemData.title && (
-        <div>
-          <h1 className="page-title">アイテム削除</h1>
-          <form onSubmit={handleSubmit}>
-            <h2>{itemData.title}</h2>
-            {itemData.image && (
-              <Image
-                src={itemData.image}
-                width={750}
-                height={500}
-                alt="item-image"
-                priority={true}
-              />
-            )}
-            <h3>￥{Number(itemData.price).toLocaleString()}</h3>
-            <p>{itemData.description}</p>
-            <button>削除</button>
-          </form>
-        </div>
-      )
+      <div>
+        <h1 className="page-title">アイテム削除</h1>
+        <form onSubmit={handleSubmit}>
+          <h2>{itemData.title}</h2>
+          <Image
+            src={itemData.image}
+            width={750}
+            height={500}
+            alt="item-image"
+            priority={true}
+          />
+          <h3>￥{Number(itemData.price).toLocaleString()}</h3>
+          <p>{itemData.description}</p>
+          <button>削除</button>
+        </form>
+      </div>
     );
   } else {
-    return itemData.title && <h1>権限がありません</h1>;
+    return <h1>権限がありません</h1>;
   }
 };
 

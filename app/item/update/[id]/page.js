@@ -16,6 +16,7 @@ const UpdateItem = (context) => {
     description: '',
     email: loginUserEmail,
   });
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setItemData({
       ...itemData,
@@ -29,6 +30,7 @@ const UpdateItem = (context) => {
       });
       const jsonData = await resp.json();
       setItemData(jsonData.singleItem);
+      setLoading(true);
     };
     getSingleItem(id);
   }, [context]);
@@ -51,51 +53,52 @@ const UpdateItem = (context) => {
       alert('アイテム編集失敗');
     }
   };
+  if (!loading) {
+    return <h1>Loading...</h1>;
+  }
   if (loginUserEmail && loginUserEmail === itemData.email) {
     return (
-      itemData.email && (
-        <div className="page-title">
-          <h1>アイテム編集</h1>
-          <form onSubmit={handleSubmit}>
-            <input
-              value={itemData.title}
-              onChange={handleChange}
-              type="text"
-              name="title"
-              placeholder="アイテム名"
-              required
-            />
-            <input
-              value={itemData.price}
-              onChange={handleChange}
-              type="text"
-              name="price"
-              placeholder="価格"
-              required
-            />
-            <input
-              value={itemData.image}
-              onChange={handleChange}
-              type="text"
-              name="image"
-              placeholder="画像"
-              required
-            />
-            <textarea
-              value={itemData.description}
-              onChange={handleChange}
-              name="description"
-              rows={15}
-              placeholder="商品説明"
-              required
-            ></textarea>
-            <button>編集</button>
-          </form>
-        </div>
-      )
+      <div className="page-title">
+        <h1>アイテム編集</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            value={itemData.title}
+            onChange={handleChange}
+            type="text"
+            name="title"
+            placeholder="アイテム名"
+            required
+          />
+          <input
+            value={itemData.price}
+            onChange={handleChange}
+            type="text"
+            name="price"
+            placeholder="価格"
+            required
+          />
+          <input
+            value={itemData.image}
+            onChange={handleChange}
+            type="text"
+            name="image"
+            placeholder="画像"
+            required
+          />
+          <textarea
+            value={itemData.description}
+            onChange={handleChange}
+            name="description"
+            rows={15}
+            placeholder="商品説明"
+            required
+          ></textarea>
+          <button>編集</button>
+        </form>
+      </div>
     );
   } else {
-    return itemData.title && <h1>権限がありません</h1>;
+    return <h1>権限がありません</h1>;
   }
 };
 
