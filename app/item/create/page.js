@@ -2,6 +2,7 @@
 
 'use client';
 
+import ImgInput from '@/app/components/imgInput';
 import useAuth from '@/app/utils/useAuth';
 import { useState } from 'react';
 
@@ -15,6 +16,12 @@ const CreateItem = () => {
     description: '',
     email: loginUserEmail,
   });
+  const setImage = (d) => {
+    setItemData({
+      ...itemData,
+      image: d,
+    });
+  };
   const handleChange = (e) => {
     setItemData({
       ...itemData,
@@ -44,6 +51,7 @@ const CreateItem = () => {
     return (
       <div>
         <h1 className="page-title">アイテム作成</h1>
+        <ImgInput setImage={setImage} />
         <form onSubmit={handleSubmit}>
           <input
             value={itemData.title}
